@@ -3,6 +3,7 @@ package com.example.mahechabjj.mahechabjj.Controller;
 
 import com.example.mahechabjj.mahechabjj.Model.User;
 import com.example.mahechabjj.mahechabjj.Repository.UserRepository;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("user")
+@RestController
 public class UserController {
 
     private UserRepository userRepository;
@@ -21,21 +22,27 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("findById/{id}")
+    @GetMapping("user/test")
+    public String test(){
+        return "yo bitch";
+    }
+
+    @GetMapping("user/findById/{id}")
     public User findUserById(@PathVariable("id") String id) {
         return userRepository.findUserById(id);
     }
 
-    @PostMapping("search")
-    public PagedListHolder<User> searchUsers(@RequestBody User user) {
-        //TODO IMPLEMENT THIS ENDPOINT
-        //TODO ADD THE PAGEDLSITHOLDER IMPLEMENTATIOH
-
-        //return userRepository.searchUser(user);
-        return null;
+    @GetMapping("user/findByEmail")
+    public ResponseEntity<User> findUserByEmail(HttpServletRequest headers) {
+        String email = headers.getHeader("X-Email");
+        User user = userRepository.findUserByEmail(email);
+        if (user == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @PostMapping("create")
+    @PostMapping("user/create")
     public User createUser(@RequestBody User user) {
         userRepository.save(user);
         return user;
