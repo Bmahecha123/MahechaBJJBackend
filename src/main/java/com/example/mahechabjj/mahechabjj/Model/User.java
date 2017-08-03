@@ -1,5 +1,6 @@
 package com.example.mahechabjj.mahechabjj.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
@@ -8,6 +9,7 @@ public class User {
     private String name;
     private HashMap<String, String> secretQuestions;
     private String password;
+    private ArrayList<PlayList> playlists;
 
     public User(){
 
@@ -51,5 +53,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ArrayList<PlayList> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(ArrayList<PlayList> playlists) {
+        this.playlists = playlists;
     }
 }
