@@ -7,6 +7,7 @@ public class User {
     private String id;
     private String email;
     private String name;
+    private String belt;
     private HashMap<String, String> secretQuestions;
     private String password;
     private ArrayList<PlayList> playlists;
@@ -39,6 +40,14 @@ public class User {
         this.name = name;
     }
 
+    public String getBelt() {
+        return belt;
+    }
+
+    public void setBelt(String belt) {
+        this.belt = belt;
+    }
+
     public HashMap<String, String> getSecretQuestions() {
         return secretQuestions;
     }
@@ -56,6 +65,9 @@ public class User {
     }
 
     public ArrayList<PlayList> getPlaylists() {
+        if (playlists == null){
+            playlists = new ArrayList<>();
+        }
         return playlists;
     }
 
