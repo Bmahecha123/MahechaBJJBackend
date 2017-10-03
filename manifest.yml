@@ -1,0 +1,7 @@
+applications:
+- name: mahechabjj
+  services:
+    - mongo-mahechabjj
+  memory: 1024M
+  path: target/mahechabjj-0.0.1.jar
+  instances: 1
