@@ -5,6 +5,7 @@ import com.example.mahechabjj.mahechabjj.Model.PlayList;
 import com.example.mahechabjj.mahechabjj.Model.User;
 import com.example.mahechabjj.mahechabjj.Model.Video;
 import com.example.mahechabjj.mahechabjj.Repository.UserRepository;
+import com.example.mahechabjj.mahechabjj.Service.EncryptionServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private UserRepository userRepository;
+    private EncryptionServiceImpl encryptionService;
 
     @Autowired
-    public UserController( UserRepository userRepository) {
+    public UserController( UserRepository userRepository, EncryptionServiceImpl encryptionService) {
         this.userRepository = userRepository;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping("user/test")
@@ -37,17 +40,24 @@ public class UserController {
     }
 
     @GetMapping("user/findByEmail")
-    public ResponseEntity<User> findUserByEmail(HttpServletRequest headers) {
-        String email = headers.getHeader("X-Email");
+    public ResponseEntity<User> findUserByEmail(@RequestHeader("X-Email") String email, @RequestHeader("X-Password") String password) {
         User user = userRepository.findUserByEmail(email);
         if (user == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        //String hashedPassword = encryptionService.encryptString(user.getPassword());
+        boolean passwordMatch = encryptionService.checkPassword(password, user.getPassword());
+        if (passwordMatch) {
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("user/create")
     public User createUser(@RequestBody User user) {
+        String hashedPassword = encryptionService.encryptString(user.getPassword());
+        user.setPassword(hashedPassword);
         userRepository.save(user);
         return user;
     }
