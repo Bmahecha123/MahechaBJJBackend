@@ -3,6 +3,8 @@ package com.example.mahechabjj.mahechabjj.Config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -12,6 +14,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     httpSecurity.authorizeRequests().antMatchers("/").permitAll();
 
     httpSecurity.csrf().disable();
-    httpSecurity.headers().disable();
+
   }
 }
