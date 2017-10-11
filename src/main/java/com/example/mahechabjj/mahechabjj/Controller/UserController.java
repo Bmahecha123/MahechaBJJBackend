@@ -55,11 +55,16 @@ public class UserController {
     }
 
     @PostMapping("user/create")
-    public User createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User userExist = userRepository.findUserByEmail(user.getEmail());
+        if (userExist != null)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         String hashedPassword = encryptionService.encryptString(user.getPassword());
         user.setPassword(hashedPassword);
         userRepository.save(user);
-        return user;
+        return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
     @DeleteMapping("delete/{id}")
