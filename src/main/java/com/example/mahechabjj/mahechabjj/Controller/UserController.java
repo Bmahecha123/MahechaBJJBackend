@@ -34,8 +34,18 @@ public class UserController {
         return "yo bitch";
     }
 
-    @GetMapping("user/findById/{id}")
-    public User findUserById(@PathVariable("id") String id) {
+   /* @GetMapping("user/findById/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable("id") String id) {
+        User user = userRepository.findUserById(id);
+        if (user == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<User>(user, HttpStatus.FOUND);
+        }
+    } */
+
+    @GetMapping("user/findById")
+    public User findUserById(@RequestHeader("X-Id") String id) {
         return userRepository.findUserById(id);
     }
 
