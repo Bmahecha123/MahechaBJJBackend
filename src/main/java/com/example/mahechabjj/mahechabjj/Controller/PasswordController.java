@@ -3,6 +3,7 @@ package com.example.mahechabjj.mahechabjj.Controller;
 
 import com.example.mahechabjj.mahechabjj.Model.User;
 import com.example.mahechabjj.mahechabjj.Repository.UserRepository;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +21,17 @@ public class PasswordController {
     this.userRepository = userRepository;
   }
 
-  @GetMapping("recover/{id}")
-  public List<String> getSecretQuestions(@PathVariable("id") String id) {
+  @PostMapping("validate")
+  public boolean recoverPassword(@RequestHeader("X-ID") String id, @RequestBody
+      String answer) {
     User user = userRepository.findUserById(id);
+    boolean match = false;
+    String secretQuestion = user.getSecretQuestion();
 
-    Map<String, String> secretQuestions = user.getSecretQuestions();
+    if (answer == user.getSecretQuestionAnswer()) {
+      match = true;
+    }
 
-    List<String> secretQuestionList = new ArrayList<>(secretQuestions.keySet());
-
-    return secretQuestionList;
-  }
-
-  @PostMapping("recover/{id}")
-  public Map<String, String> getPassword(@RequestBody Map<String, String> secretQuestions,
-      @PathVariable("id") String id) {
-    return null;
-    //TODO IMPLEMENT!!!! CHECK FOR EQUALITY OF QUESTIONS TO THE USER LOOKED UP...
-    // IF THERES A MATCH THEN SEND PASSWORD IN HASHMAP..
+    return match;
   }
 }

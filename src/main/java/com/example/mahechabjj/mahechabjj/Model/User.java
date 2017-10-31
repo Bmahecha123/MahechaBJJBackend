@@ -8,7 +8,8 @@ public class User {
     private String email;
     private String name;
     private String belt;
-    private HashMap<String, String> secretQuestions;
+    private String secretQuestion;
+    private String secretQuestionAnswer;
     private String password;
     private ArrayList<PlayList> playlists;
 
@@ -48,12 +49,20 @@ public class User {
         this.belt = belt;
     }
 
-    public HashMap<String, String> getSecretQuestions() {
-        return secretQuestions;
+    public String getSecretQuestion() {
+        return secretQuestion;
     }
 
-    public void setSecretQuestions(HashMap<String, String> secretQuestions) {
-        this.secretQuestions = secretQuestions;
+    public void setSecretQuestion(String secretQuestion) {
+        this.secretQuestion = secretQuestion;
+    }
+
+    public String getSecretQuestionAnswer() {
+        return secretQuestionAnswer;
+    }
+
+    public void setSecretQuestionAnswer(String secretQuestionAnswer) {
+        this.secretQuestionAnswer = secretQuestionAnswer;
     }
 
     public String getPassword() {

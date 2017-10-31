@@ -71,8 +71,7 @@ public class UserController {
         {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String hashedPassword = encryptionService.encryptString(user.getPassword());
-        user.setPassword(hashedPassword);
+        String hashedPassword = hashPassword(user);
         userRepository.save(user);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
@@ -84,11 +83,12 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PatchMapping("edit/{id}")
-    public ResponseEntity  editUser(@RequestBody User user, @PathVariable("id") String id) {
-        //TODO implement the editing functionality.
-        //perhaps with a custom repository function to perform more of the logic and etc.
-        return null;
+    @PutMapping("edit")
+    public ResponseEntity editUser(@RequestBody User user) {
+        String hashedPassword = hashPassword(user);
+        userRepository.save(user);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("user/addplaylist/{id}")
@@ -198,5 +198,13 @@ public class UserController {
         userRepository.save(user);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public String hashPassword(User user) {
+
+        String hashedPassword = encryptionService.encryptString(user.getPassword());
+        user.setPassword(hashedPassword);
+
+        return hashedPassword;
     }
 }
