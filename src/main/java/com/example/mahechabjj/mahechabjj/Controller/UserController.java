@@ -8,6 +8,7 @@ import com.example.mahechabjj.mahechabjj.Repository.UserRepository;
 import com.example.mahechabjj.mahechabjj.Service.EncryptionServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -29,20 +30,29 @@ public class UserController {
         this.encryptionService = encryptionService;
     }
 
-    @GetMapping("user/test")
-    public String test(){
-        return "yo bitch";
+    @GetMapping("user/getUser")
+    public User getUserByEmail(@RequestHeader("X-EMAIL") String email) {
+        User user = userRepository.findUserByEmail(email);
+
+        if (user == null) {
+           return null;
+        } else {
+            return user;
+        }
     }
 
-   /* @GetMapping("user/findById/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable("id") String id) {
+    @PostMapping("password/changePassword")
+    public void changePassword(@RequestHeader("X-ID") String id, @RequestHeader("X-ANSWER") String answer, @RequestHeader("X-PASSWORD") String password) {
         User user = userRepository.findUserById(id);
-        if (user == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<User>(user, HttpStatus.FOUND);
+        String secretQuestion = user.getSecretQuestion();
+
+        if (Objects.equals(answer, user.getSecretQuestionAnswer())) {
+            user.setPassword(password);
+            String hashedPassword = hashPassword(user);
+            user.setPassword(hashedPassword);
+            userRepository.save(user);
         }
-    } */
+    }
 
     @GetMapping("user/findById")
     public User findUserById(@RequestHeader("X-Id") String id) {
@@ -56,6 +66,7 @@ public class UserController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         //String hashedPassword = encryptionService.encryptString(user.getPassword());
+
         boolean passwordMatch = encryptionService.checkPassword(password, user.getPassword());
         if (passwordMatch) {
             return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -72,6 +83,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         String hashedPassword = hashPassword(user);
+        user.setPassword(hashedPassword);
         userRepository.save(user);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
@@ -203,8 +215,6 @@ public class UserController {
     public String hashPassword(User user) {
 
         String hashedPassword = encryptionService.encryptString(user.getPassword());
-        user.setPassword(hashedPassword);
-
         return hashedPassword;
     }
 }

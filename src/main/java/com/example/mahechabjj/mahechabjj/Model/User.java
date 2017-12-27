@@ -12,6 +12,7 @@ public class User {
     private String secretQuestionAnswer;
     private String password;
     private ArrayList<PlayList> playlists;
+    private Packages packages;
 
     public User(){
 
@@ -82,5 +83,43 @@ public class User {
 
     public void setPlaylists(ArrayList<PlayList> playlists) {
         this.playlists = playlists;
+    }
+
+    public Packages getPackages() {
+        return packages;
+    }
+
+    public void setPackages(Packages packages) {
+        this.packages = packages;
+    }
+
+    public class Packages {
+        private boolean noGiJiuJitsu;
+        private boolean giJiuJitsu;
+        private boolean giAndNoGiJiuJitsu;
+
+        public boolean isNoGiJiuJitsu() {
+            return noGiJiuJitsu;
+        }
+
+        public void setNoGiJiuJitsu(boolean noGiJiuJitsu) {
+            this.noGiJiuJitsu = noGiJiuJitsu;
+        }
+
+        public boolean isGiJiuJitsu() {
+            return giJiuJitsu;
+        }
+
+        public void setGiJiuJitsu(boolean giJiuJitsu) {
+            this.giJiuJitsu = giJiuJitsu;
+        }
+
+        public boolean isGiAndNoGiJiuJitsu() {
+            return giAndNoGiJiuJitsu;
+        }
+
+        public void setGiAndNoGiJiuJitsu(boolean giAndNoGiJiuJitsu) {
+            this.giAndNoGiJiuJitsu = giAndNoGiJiuJitsu;
+        }
     }
 }
