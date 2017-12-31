@@ -2,13 +2,22 @@ package com.example.mahechabjj.mahechabjj.Model;
 
 public class Video {
 
-  public String name;
-  public String image;
-  public String link;
-  public String description;
+  private String name;
+  private String image;
+  private String link;
+  private String linkHd;
+  private String description;
 
   public Video() {
 
+  }
+
+  public String getLinkHd() {
+    return linkHd;
+  }
+
+  public void setLinkHd(String linkHd) {
+    this.linkHd = linkHd;
   }
 
   public String getName() {
