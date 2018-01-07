@@ -41,6 +41,18 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("user")
+    public boolean deleteUser(@RequestBody User user) {
+
+        User findUser = this.userRepository.findOne(user.getId());
+        if (findUser != null) {
+            this.userRepository.delete(findUser.getId());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @PostMapping("password/changePassword")
     public void changePassword(@RequestHeader("X-ID") String id, @RequestHeader("X-ANSWER") String answer, @RequestHeader("X-PASSWORD") String password) {
         User user = userRepository.findUserById(id);
