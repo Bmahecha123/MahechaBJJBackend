@@ -42,14 +42,14 @@ public class UserController {
     }
 
     @DeleteMapping("user")
-    public boolean deleteUser(@RequestHeader("X-ID") String id) {
+    public ResponseEntity deleteUser(@RequestHeader("X-ID") String id) {
 
         User user = this.userRepository.findOne(id);
         if (user != null) {
             this.userRepository.delete(user.getId());
-            return true;
+            return new ResponseEntity(HttpStatus.OK);
         } else {
-            return false;
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
