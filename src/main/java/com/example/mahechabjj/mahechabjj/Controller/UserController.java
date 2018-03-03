@@ -100,12 +100,11 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
-    @PutMapping("edit")
-    public ResponseEntity editUser(@RequestBody User user) {
-        String hashedPassword = hashPassword(user);
+    @PutMapping("user/edit")
+    public ResponseEntity<User> editUser(@RequestBody User user) {
         userRepository.save(user);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @PutMapping("user/addplaylist/{id}")
