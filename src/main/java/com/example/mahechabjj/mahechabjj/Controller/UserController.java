@@ -30,6 +30,7 @@ public class UserController {
         this.encryptionService = encryptionService;
     }
 
+    @CrossOrigin
     @GetMapping("user/getUser")
     public User getUserByEmail(@RequestHeader("X-EMAIL") String email) {
         User user = userRepository.findUserByEmail(email);
@@ -41,6 +42,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @DeleteMapping("user")
     public ResponseEntity deleteUser(@RequestHeader("X-ID") String id) {
 
@@ -53,6 +55,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @PostMapping("password/changePassword")
     public void changePassword(@RequestHeader("X-ID") String id, @RequestHeader("X-ANSWER") String answer, @RequestHeader("X-PASSWORD") String password) {
         User user = userRepository.findUserById(id);
@@ -66,11 +69,13 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("user/findById")
     public User findUserById(@RequestHeader("X-Id") String id) {
         return userRepository.findUserById(id);
     }
 
+    @CrossOrigin
     @GetMapping("user/findByEmail")
     public ResponseEntity<User> findUserByEmail(@RequestHeader("X-Email") String email, @RequestHeader("X-Password") String password) {
         User user = userRepository.findUserByEmail(email);
@@ -87,6 +92,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @PostMapping("user/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User userExist = userRepository.findUserByEmail(user.getEmail());
@@ -100,6 +106,7 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PutMapping("user/edit")
     public ResponseEntity<User> editUser(@RequestBody User user) {
         userRepository.save(user);
@@ -107,6 +114,7 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PutMapping("user/addplaylist/{id}")
     public ResponseEntity addPlaylist(@PathVariable("id") String id, @RequestBody PlayList playList) {
         User user = userRepository.findOne(id);
@@ -119,6 +127,7 @@ public class UserController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @GetMapping("user/getplaylists/{id}")
     public ResponseEntity<List<PlayList>> getPlaylists(@PathVariable("id") String id){
         User user = userRepository.findOne(id);
@@ -127,6 +136,7 @@ public class UserController {
         return new ResponseEntity<List<PlayList>>(playListList, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping("user/getplaylist/{id}")
     public ResponseEntity<PlayList> getPlaylist(HttpServletRequest headers, @PathVariable("id") String id){
 
@@ -145,6 +155,7 @@ public class UserController {
         return new ResponseEntity<PlayList>(userPlaylist, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping("user/updateplaylists/{id}")
     public ResponseEntity updateUserPlaylist(@PathVariable("id") String id,
         @RequestBody PlayList newPlayList) {
@@ -166,6 +177,7 @@ public class UserController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PostMapping("user/deleteplaylist/{id}")
     public ResponseEntity deleteUserPlaylist(@PathVariable("id") String id,
         @RequestBody PlayList playlistToBeDeleted) {
@@ -184,6 +196,7 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping("user/deleteVideo/{id}")
     public ResponseEntity deleteVideoFromPlaylist(HttpServletRequest headers, @PathVariable("id") String id,
         @RequestBody PlayList userPlayList) {

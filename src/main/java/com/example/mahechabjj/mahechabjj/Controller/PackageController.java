@@ -4,6 +4,7 @@ import com.example.mahechabjj.mahechabjj.Model.Package;
 import com.example.mahechabjj.mahechabjj.Repository.PackageRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +19,13 @@ public class PackageController {
     this.packageRepository = packageRepository;
   }
 
+  @CrossOrigin
   @GetMapping("packages")
   public void getPackages() {
 
   }
 
+  @CrossOrigin
   @PostMapping("packages")
   public ResponseEntity postPackages(@RequestBody Package newPackage) {
     this.packageRepository.save(newPackage);
