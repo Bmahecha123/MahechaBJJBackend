@@ -41,6 +41,18 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("user")
+    public ResponseEntity deleteUser(@RequestHeader("X-ID") String id) {
+
+        User user = this.userRepository.findOne(id);
+        if (user != null) {
+            this.userRepository.delete(user.getId());
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("password/changePassword")
     public void changePassword(@RequestHeader("X-ID") String id, @RequestHeader("X-ANSWER") String answer, @RequestHeader("X-PASSWORD") String password) {
         User user = userRepository.findUserById(id);
@@ -88,19 +100,11 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity deleteUser(@PathVariable String id) {
-        userRepository.delete(id);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @PutMapping("edit")
-    public ResponseEntity editUser(@RequestBody User user) {
-        String hashedPassword = hashPassword(user);
+    @PutMapping("user/edit")
+    public ResponseEntity<User> editUser(@RequestBody User user) {
         userRepository.save(user);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @PutMapping("user/addplaylist/{id}")
