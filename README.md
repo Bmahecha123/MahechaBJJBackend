@@ -1,5 +1,5 @@
 # Mahecha BJJ User Service
-#Deprecated: Replaced my [User Service](https://github.com/Bmahecha123/MahechaBjjBackendKotlin)
+# Deprecated: Replaced by [User Service](https://github.com/Bmahecha123/MahechaBjjBackendKotlin)
 
 ## Tech Stack
 * Java 8
